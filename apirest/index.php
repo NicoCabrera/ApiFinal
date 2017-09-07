@@ -21,7 +21,7 @@ $app->group('/user', function () {
  
   $this->get('/', \userApi::class . ':getAll');
  
-  $this->get('/{id}', \userApi::class . ':getById');
+  $this->get('/{userid}', \userApi::class . ':getById');
 
   $this->post('/add', \userApi::class . ':insert');
 

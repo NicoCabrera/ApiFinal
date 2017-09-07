@@ -21,13 +21,23 @@ class MWAuth
 
 		$rv = new stdclass();
 		$rv->message = "";
-		$jwt = $request->getHeader('Authorization')[0];
-		if(AuthJWT::verifyToken($jwt)){
-			$response = $next($request, $response);
-		}else{
-			$rv->message = "La credencial no es válida o ha expirado.";
+
+		if (isset($request->getHeader('Authorization')[0])) {
+			$jwt = $request->getHeader('Authorization')[0];
+			if (AuthJWT::verifyToken($jwt)) {
+				$response = $next($request, $response);
+			}
+			else {
+				$rv->message = "La credencial no es válida o ha expirado.";
+				$response = $response->withJson($rv, 404);
+			}
+		}
+		else {
+			$rv->message = "No se han enviado las credenciales.";
 			$response = $response->withJson($rv, 404);
 		}
+
+
 		return $response;
 	}
 }

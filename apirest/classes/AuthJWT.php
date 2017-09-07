@@ -17,7 +17,6 @@ class AuthJWT
          */
         $payload = array(
             'iat' => $now,
-            'exp' => $now + (60 * 60),
             'aud' => self::Aud(),
             'data' => $data,
             'app' => "Generic User APIREST"
