@@ -5,6 +5,7 @@ class User
 	public $email;
 	public $password;
 	public $photo;
+
 	public function deleteUser()
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
@@ -60,10 +61,25 @@ class User
 		$consulta = $objetoAccesoDato->RetornarConsulta("select * from users where userid = :userid");
 		$consulta->bindValue(':userid', $userid, PDO::PARAM_INT);
 		$consulta->execute();
-		$cdBuscado = $consulta->fetchObject('User');
-		return $cdBuscado;
-
-
+		$user = $consulta->fetchObject('User');
+		return $user;
 	}
 
+	public static function getUserDataByEmailAndPassword($email,$password)
+	{
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("select email,password from users where email = :email and password = :password");
+		$consulta->bindValue(':password', $password, PDO::PARAM_STR);
+		$consulta->bindValue(':email', $email, PDO::PARAM_STR);
+		$consulta->execute();
+		return $consulta->fetchObject('User');
+	}
+
+	public static function userAlreadyExist($email){
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("select email,password from users where email = :email");
+		$consulta->bindValue(':email', $email, PDO::PARAM_STR);
+		$consulta->execute();
+		return $consulta->rowCount() > 0;
+	}
 }
