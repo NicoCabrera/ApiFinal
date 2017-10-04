@@ -33,25 +33,15 @@ class userApi extends User implements IGenericDAO
     public function insert($request, $response, $args)
     {
 
-        $files = $request->getUploadedFiles();
-        $file = "";
-        if (array_key_exists("photo", $files)) {
-            $file = $files['photo'];
-        }
-        $filename = "";
-        $folder = "./uploads/";
-        if (!empty($file))
-            {
-            $filename = $this->moveUploadedFile($folder, $file);
-        }
-
         $newUserData = $request->getParsedBody();
-        $password = crypt($newUserData["password"], "1af324D");
+        $password = crypt($newUserData["pass"], "1af324D");
 
         $newUser = new User();
-        $newUser->email = $newUserData["email"];
-        $newUser->password = $password;
-        $newUser->photo = $filename;
+        $newUser->nombre = $newUserData["nombre"];
+        $newUser->correo = $newUserData["correo"];
+        $newUser->pass = $password;
+        $newUser->foto = $newUserData["foto"];
+        $newUser->sexo = $newUserData["sexo"];
         $userid = $newUser->insertUser();
 
         $rv = new stdclass();
@@ -63,9 +53,12 @@ class userApi extends User implements IGenericDAO
     {
         $newData = $request->getParsedBody();
         $userToUpdate = new User();
-        $userToUpdate->userid = $newData['userid'];
-        $userToUpdate->email = $newData['email'];
-        $userToUpdate->password = crypt($newData['password'], "1af324D");
+        $userToUpdate->idusuario = $newData['idusuario'];
+        $userToUpdate->nombre = $newData['nombre'];
+        $userToUpdate->correo = $newData['correo'];
+        $userToUpdate->pass = crypt($newData['pass'], "1af324D");
+        $userToUpdate->foto = $newData['foto'];
+        $userToUpdate->sexo = $newData['sexo'];
         $rv = new stdclass();
         if ($userToUpdate->updateUser()) {
             $rv->message = "El usuario ha sido actualizado con exitosamente.";
@@ -81,9 +74,9 @@ class userApi extends User implements IGenericDAO
     public function delete($request, $response, $args)
     {
         $userToDelete = $request->getParsedBody();
-        $userid = $userToDelete['userid'];
+        $idusuario = $userToDelete['idusuario'];
         $user = new User();
-        $user->userid = $userid;
+        $user->idusuario = $idusuario;
         $rv = new stdclass();
         if ($user->deleteUser() > 0) {
             $rv->message = "Usuario eliminado exitosamente.";

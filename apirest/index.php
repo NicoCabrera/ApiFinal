@@ -29,8 +29,8 @@ $app->group('/user', function () {
 
   $this->post('/update', \userApi::class . ':update');
      
-})->add(\MWAuth::class . ':verifyUser')->add(\MWCORS::class . ':enableCORS');
-
+})->add(\MWCORS::class . ':enableCORS');
+//->add(\MWAuth::class . ':verifyUser')
 $app->group('/login', function () {
   
    $this->post('/signin', \userApi::class . ':validateUser');
