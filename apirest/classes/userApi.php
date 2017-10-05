@@ -96,8 +96,8 @@ class userApi extends User implements IGenericDAO
         try {
             $rv = new stdclass();
             $userData = $request->getParsedBody();
-            $password = crypt($userData['password'], "1af324D");
-            $email = $userData['email'];
+            $password = crypt($userData['pass'], "1af324D");
+            $email = $userData['correo'];
             $user = User::getUserDataByEmailAndPassword($email, $password);
             if ($user != false) {
 

@@ -75,12 +75,12 @@ class User
 		return $user;
 	}
 
-	public static function getUserDataByEmailAndPassword($email, $password)
+	public static function getUserDataByEmailAndPassword($correo, $pass)
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-		$consulta = $objetoAccesoDato->RetornarConsulta("select email,password from users where email = :email and password = :password");
-		$consulta->bindValue(':password', $password, PDO::PARAM_STR);
-		$consulta->bindValue(':email', $email, PDO::PARAM_STR);
+		$consulta = $objetoAccesoDato->RetornarConsulta("select correo,pass from usuarios where correo = :correo and pass = :pass");
+		$consulta->bindValue(':pass', $pass, PDO::PARAM_STR);
+		$consulta->bindValue(':correo', $correo, PDO::PARAM_STR);
 		$consulta->execute();
 		return $consulta->fetchObject('User');
 	}

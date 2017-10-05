@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-09-2017 a las 15:57:09
+-- Tiempo de generación: 05-10-2017 a las 03:46:44
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -23,35 +23,44 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `users`
+-- Estructura de tabla para la tabla `usuarios`
 --
 
-CREATE TABLE `users` (
-  `userid` bigint(20) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `photo` varchar(100) NOT NULL
+CREATE TABLE `usuarios` (
+  `idusuario` bigint(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `correo` varchar(100) NOT NULL,
+  `pass` varchar(100) NOT NULL,
+  `foto` varchar(100) NOT NULL,
+  `sexo` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`idusuario`, `nombre`, `correo`, `pass`, `foto`, `sexo`) VALUES
+(1, 'L', 'l@l.com', '1aaxKRwFlYIGM', '123456.jpg', 'M');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `users`
+-- Indices de la tabla `usuarios`
 --
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`userid`);
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`idusuario`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `users`
+-- AUTO_INCREMENT de la tabla `usuarios`
 --
-ALTER TABLE `users`
-  MODIFY `userid` bigint(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `usuarios`
+  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
