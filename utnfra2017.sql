@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-10-2017 a las 03:46:44
+-- Tiempo de generación: 22-11-2017 a las 21:13:13
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -23,44 +23,43 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Estructura de tabla para la tabla `users`
 --
 
-CREATE TABLE `usuarios` (
-  `idusuario` bigint(20) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `correo` varchar(100) NOT NULL,
-  `pass` varchar(100) NOT NULL,
-  `foto` varchar(100) NOT NULL,
-  `sexo` varchar(100) NOT NULL
+CREATE TABLE `users` (
+  `userid` bigint(20) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `rol` varchar(100) NOT NULL,
+  `photo` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `usuarios` (`idusuario`, `nombre`, `correo`, `pass`, `foto`, `sexo`) VALUES
-(1, 'L', 'l@l.com', '1aaxKRwFlYIGM', '123456.jpg', 'M');
+INSERT INTO `users` (`userid`, `email`, `password`, `rol`, `photo`) VALUES
+(1, 'admin@admin.com', '1aaxKRwFlYIGM', 'Usuario comun', '');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `usuarios`
+-- Indices de la tabla `users`
 --
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`idusuario`);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`userid`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `usuarios`
+-- AUTO_INCREMENT de la tabla `users`
 --
-ALTER TABLE `usuarios`
-  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `users`
+  MODIFY `userid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
