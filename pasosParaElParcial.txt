@@ -6,23 +6,25 @@ Pasos para el parcial
 		
 
 1)
-clonar el repositorio de la apirest con
-git clone https://github.com/NicoCabrera/APIREST-PHP-POO-JWT-MIDDLEWARE-Documentar.git
+clonar el repositorio de la apirest en el htdocs, con el comando
+git clone https://github.com/NicoCabrera/api2Parcial.git
 
 2)
-Dentro de la carpeta APIREST-PHP-POO-JWT-MIDDLEWARE-Documentar/apirest crear un directorio
-llamado uploads
-
-3)
 Encender el xampp
 
+3)
+Probarlo con POSTMAN.
+Probar dos opciones:
+ - con http://localhost:8080/
+ - con http://localhost/
+Ejemplo de como llamar a algunas:
+http://localhost/api2Parcial/apirest/user/		<---- GET
+
+http://localhost:8080/api2Parcial/apirest/user/1231     <---- GET
+
+
 4)
-Probarlo con POSTMAN. Ejemplo de como llamar a algunas:
-http://localhost/APIREST-PHP-POO-JWT-MIDDLEWARE-Documentar/apirest/user/
-
-http://localhost/APIREST-PHP-POO-JWT-MIDDLEWARE-Documentar/apirest/user/1231
-
-5) Crear la base de datos. Tener en cuenta:
+Crear la base de datos. Tener en cuenta:
 	A) El nombre de la base de datos que se encuentra
 	referenciado en el archivo apirest/classes/AccesoDatos.php
 
@@ -88,6 +90,11 @@ http://localhost/APIREST-PHP-POO-JWT-MIDDLEWARE-Documentar/apirest/user/1231
 ===========================================================================================
 ==================TEMPLATE=================================================================
 ===========================================================================================
+1) clonar el repositorio
+
+2)ejecutar el comando npm install (es lo que tiene más tiempo de espera, se puede hacer
+éste paso primero mientras se continua con el backend)
+
 La template incluye:
 
 -Login (Que puede ser removido) listo
@@ -95,4 +102,5 @@ La template incluye:
 -Componente grilla. (listo)
 -Componente con Input/Output (listo)
 -Servicio (listo)
+
 
