@@ -23,14 +23,14 @@ $app->group('/user', function () {
  
   $this->get('/{userid}', \userApi::class . ':getById');
 
-  $this->post('/add', \userApi::class . ':insert');
+  $this->post('/add', \userApi::class . ':insert')->add(\MWAuth::class . ':verifyUser');
 
-  $this->post('/delete', \userApi::class . ':delete');
+  $this->post('/delete', \userApi::class . ':delete')->add(\MWAuth::class . ':verifyUser');
 
-  $this->post('/update', \userApi::class . ':update');
+  $this->post('/update', \userApi::class . ':update')->add(\MWAuth::class . ':verifyUser');
      
 })->add(\MWCORS::class . ':enableCORS');
-//->add(\MWAuth::class . ':verifyUser')
+
 $app->group('/login', function () {
   
    $this->post('/signin', \userApi::class . ':validateUser');

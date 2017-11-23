@@ -42,6 +42,9 @@ class AuthJWT
                 {
                 $rv = false;
             }
+            if($decodificado->data->rol != "Admin"){
+                $rv = false;
+            }
         } catch (Exception $ex) {
             $rv = false;
         }
