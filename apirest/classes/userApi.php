@@ -115,8 +115,18 @@ class userApi extends User implements IGenericDAO
     function registerUser($request, $response, $args)
     {
         $rv = new stdclass();
-
+        $rv->invalid = array();
         $userData = $request->getParsedBody();
+        $invalid = $this->userIsValid($userData);
+        if (count($invalid) == 0) {
+            $rv->message = "El usuario ha sido registrado existosamente";
+            $response = $response->withJson($rv, 200);
+        } else {
+            $rv->message = "Los datos no tiene el formato correcto";
+            $rv->invalid = $invalid;
+            $response = $response->withJson($rv, 404);
+        }
+        /*
         $password = $userData['password'];
         $email = $userData['email'];
         $rol = $userData['rol'];
@@ -134,6 +144,7 @@ class userApi extends User implements IGenericDAO
             $rv->jwt = $jwt;
             $response = $response->withJson($rv, 200);
         }
+         */
         return $response;
     }
 
@@ -147,5 +158,80 @@ class userApi extends User implements IGenericDAO
         $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
 
         return $filename;
+    }
+
+    function userIsValid($user)
+    {
+        $messages = array();
+        //email validations
+        if (isset($user['email'])) {
+            if (strlen($user['email']) != 0) {
+                if (strlen($user['email']) > 50) {
+                    array_push($messages, "El e-mail es demasiado largo para ser válido");
+                }
+                if (!filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
+                    array_push($messages, "El formato del e-mail es incorrecto");
+                }
+            } else {
+                array_push($messages, "Ingresa tu correo electrónico");
+            }
+        } else {
+            array_push($messages, "Ingresa tu correo electrónico");
+        }
+        /*****************************************************/
+        //username validations
+        if (isset($user['username'])) {
+            if (strlen($user['username']) != 0) {
+                if (strlen($user['username']) > 50) {
+                    array_push($messages, "El nombre de usuario es demasiado largo para ser válido");
+                }
+            } else {
+                array_push($messages, "Ingresa tu nombre de usuario");
+            }
+        } else {
+            array_push($messages, "Ingresa tu nombre de usuario");
+        }
+        /*****************************************************/
+        //password validations
+        if (isset($user['password'])) {
+            if (strlen($user['password']) != 0) {
+                if (strlen($user['password']) > 50) {
+                    array_push($messages, "La contraseña es demasiado larga para ser válida");
+                }
+            } else {
+                array_push($messages, "Ingresa la contraseña");
+            }
+        } else {
+            array_push($messages, "Ingresa la contraseña");
+        }
+        /*****************************************************/
+        //firstname validations
+        if (isset($user['firstname'])) {
+            if (strlen($user['firstname']) != 0) {
+                if (strlen($user['firstname']) > 50) {
+                    array_push($messages, "El nombre es demasiado largo para ser válido");
+                }
+            } else {
+                array_push($messages, "Ingresa tu nombre");
+            }
+        } else {
+            array_push($messages, "Ingresa tu nombre");
+        }
+        /*****************************************************/
+        /*****************************************************/
+        //lastname validations
+        if (isset($user['lastname'])) {
+            if (strlen($user['lastname']) != 0) {
+                if (strlen($user['lastname']) > 50) {
+                    array_push($messages, "El apellido es demasiado largo para ser válido");
+                }
+            }else{
+                array_push($messages, "Ingresa tu apellido");    
+            }
+        } else {
+            array_push($messages, "Ingresa tu apellido");
+        }
+        /*****************************************************/
+        return $messages;
     }
 }

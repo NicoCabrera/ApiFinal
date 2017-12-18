@@ -2,10 +2,12 @@
 class User
 {
 	public $userid;
+	public $username;
 	public $email;
 	public $password;
-	public $rol;
-	public $photo;
+	public $rolid;
+	public $firstname;
+	public $lastname;
 
 	public function deleteUser()
 	{
