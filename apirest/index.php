@@ -35,7 +35,7 @@ $app->group('/login', function () {
   
    $this->post('/signin', \userApi::class . ':validateUser');
   
-   $this->post('/signup', \userApi::class . ':registerUser');
+   $this->post('/signup', \userApi::class . ':validateRegistrationData');
  
  })->add(\MWCORS::class . ':enableCORS');
 

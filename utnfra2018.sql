@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-12-2017 a las 16:22:40
+-- Tiempo de generación: 22-01-2018 a las 19:08:42
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `utnfra2017`
+-- Base de datos: `utnfra2018`
 --
 
 -- --------------------------------------------------------
@@ -40,10 +40,10 @@ CREATE TABLE `answers` (
 --
 
 INSERT INTO `answers` (`answerid`, `text`, `userid`, `questionid`, `surveyid`, `choosenothing`) VALUES
-(35, 'Es puntual. Es bastante exigente.', 4, 64, 62, 0),
-(36, '', 4, 65, 63, 0),
-(37, '', 12, 65, 63, 0),
-(38, 'Excelente. 100% recomendado, 1link , mega, no virus', 12, 64, 62, 0);
+(35, 'Es puntual. Es bastante exigente.', NULL, 64, 62, 0),
+(36, '', NULL, 65, 63, 0),
+(37, '', NULL, 65, 63, 0),
+(38, 'Excelente. 100% recomendado, 1link , mega, no virus', NULL, 64, 62, 0);
 
 -- --------------------------------------------------------
 
@@ -178,7 +178,8 @@ INSERT INTO `roles` (`rolid`, `code`) VALUES
 (1, 'Administrator'),
 (2, 'Teacher'),
 (3, 'Administrative'),
-(4, 'Student');
+(4, 'Student'),
+(535751, 'Cliente');
 
 -- --------------------------------------------------------
 
@@ -201,8 +202,8 @@ CREATE TABLE `surveys` (
 --
 
 INSERT INTO `surveys` (`surveyid`, `title`, `creationdate`, `enddate`, `ownerid`, `waseliminated`, `surveytypeid`) VALUES
-(62, 'Opinión sobre el profesor', '2017-06-23', '2017-07-31', 2, 0, 1),
-(63, 'Dificultad de la materia', '2017-06-23', '2017-08-24', 2, 0, 3);
+(62, 'Opinión sobre el profesor', '2017-06-23', '2017-07-31', NULL, 0, 1),
+(63, 'Dificultad de la materia', '2017-06-23', '2017-08-24', NULL, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -238,23 +239,15 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `rolid` bigint(18) NOT NULL,
-  `firstname` varchar(100) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `filenumber` bigint(18) NOT NULL
+  `rolid` bigint(18) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`userid`, `username`, `email`, `password`, `rolid`, `firstname`, `lastname`, `filenumber`) VALUES
-(1, 'EjemploAdministrator', 'admin@admin.com', '123456', 1, 'Ejemplo', 'Administrador', 111111),
-(2, 'RFonte', 'ruben@fonte.com', '123456', 2, 'Rubén', 'Fonte', 2222),
-(3, 'EjemploAdministrative', 'administrative@administrative.com', '123456', 3, 'Ejemplo', 'Administrativo', 0),
-(4, 'NicoCabrera', 'nicolascabrera@yahoo.com.ar', '123456', 4, 'Nicolás', 'Cabrera', 35468),
-(12, 'feden91', 'feden@feden.com', '123456', 4, 'Federico', 'Nuñez', 100321),
-(22, 'O. Villegas', 'ocatavio@villegas.com', '123456', 2, 'Octavio', 'Villegas', 935442);
+INSERT INTO `users` (`userid`, `username`, `email`, `password`, `rolid`) VALUES
+(31, 'Usuario Pruebas', 'correo@correo.com.ar', '1azcGXGneEkrk', 535751);
 
 --
 -- Índices para tablas volcadas
@@ -379,7 +372,7 @@ ALTER TABLE `surveytype`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` bigint(18) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `userid` bigint(18) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- Restricciones para tablas volcadas
 --

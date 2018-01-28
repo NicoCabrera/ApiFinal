@@ -6,8 +6,6 @@ class User
 	public $email;
 	public $password;
 	public $rolid;
-	public $firstname;
-	public $lastname;
 
 	public function deleteUser()
 	{
@@ -44,12 +42,12 @@ class User
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
 		$consulta = $objetoAccesoDato->RetornarConsulta("
 				insert into users 
-				(email,password,photo,rol)
-				values (:email,:password,:photo,:rol)");
+				(username,email,password,rolid)
+				values (:username,:email,:password,:rolid)");
+	 	$consulta->bindValue(':username', $this->username, PDO::PARAM_STR);
 		$consulta->bindValue(':email', $this->email, PDO::PARAM_STR);
 		$consulta->bindValue(':password', $this->password, PDO::PARAM_STR);
-		$consulta->bindValue(':rol', $this->rol, PDO::PARAM_STR);
-		$consulta->bindValue(':photo', $this->photo, PDO::PARAM_STR);
+		$consulta->bindValue(':rolid', $this->rolid, PDO::PARAM_INT);
 		$consulta->execute();
 		return $objetoAccesoDato->RetornarUltimoIdInsertado();
 	}

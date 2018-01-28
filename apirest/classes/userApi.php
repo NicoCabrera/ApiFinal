@@ -34,10 +34,10 @@ class userApi extends User implements IGenericDAO
         $password = crypt($newUserData["password"], "1af324D");
 
         $newUser = new User();
+        $newUser->username = $newUserData['username'];
         $newUser->email = $newUserData["email"];
         $newUser->password = $password;
-        $newUser->photo = $newUserData["photo"];
-        $newUser->rol = $newUserData["rol"];
+        $newUser->rolid = 535751; //Cliente
         $userid = $newUser->insertUser();
 
         $rv = new stdclass();
@@ -88,6 +88,7 @@ class userApi extends User implements IGenericDAO
     {
         try {
             $rv = new stdclass();
+            $rv->invalid = array();
             $userData = $request->getParsedBody();
             $password = crypt($userData['password'], "1af324D");
             $email = $userData['email'];
@@ -99,12 +100,14 @@ class userApi extends User implements IGenericDAO
                 $rv->message = 'Usuario encontrado';
                 $response = $response->withJson($rv, 200);
             } else {
-                $rv->message = "El usuario no ha sido encontrado";
+                $rv->message = "Los datos no son correctos";
+                array_push($rv->invalid,"Verifique los datos ingresados");
                 $response = $response->withJson($rv, 404);
             }
             return $response;
         } catch (Exception $ex) {
             $rv->message = "Error desconocido. Comuniquese con el administrador de su sistema.";
+            array_push($rv->invalid,"Error");
             $response = $response->withJson($rv, 404);
             return $response;
 
@@ -112,42 +115,42 @@ class userApi extends User implements IGenericDAO
 
     }
 
-    function registerUser($request, $response, $args)
+    function validateRegistrationData($request, $response, $args)
     {
         $rv = new stdclass();
         $rv->invalid = array();
         $userData = $request->getParsedBody();
-        $invalid = $this->userIsValid($userData);
-        if (count($invalid) == 0) {
-            $rv->message = "El usuario ha sido registrado existosamente";
-            $response = $response->withJson($rv, 200);
-        } else {
+        $errorMsgs = $this->userIsValid($userData);
+        if (count($errorMsgs) > 0) {
+
             $rv->message = "Los datos no tiene el formato correcto";
-            $rv->invalid = $invalid;
+            $rv->invalid = $errorMsgs;
             $response = $response->withJson($rv, 404);
-        }
-        /*
-        $password = $userData['password'];
-        $email = $userData['email'];
-        $rol = $userData['rol'];
-        if (User::userAlreadyExist($email)) {
-            $rv->message = "El usuario ingresado ya existe";
-            $response = $response->withJson($rv, 404);
+
         } else {
-            $response = $this->insert($request, $response, $args);
-            $user = new User();
-            $user->password = $password;
-            $user->email = $email;
-            $user->rol = $userData['rol'];
-            $jwt = AuthJWT::getToken($user);
-            $rv->message = "Usuario registrado exitosamente";
-            $rv->jwt = $jwt;
-            $response = $response->withJson($rv, 200);
+
+            if (User::userAlreadyExist($userData['email'])) {
+                $rv->message = "El usuario ingresado ya existe";
+                array_push($rv->invalid,"Ya se ha registrado un usuario con ese email");
+                $response = $response->withJson($rv, 404);
+            } else {
+            
+                $response = $this->insert($request, $response, $args);
+
+                $user = new User();
+                $user->username = $userData['username'];
+                $user->email = $userData['email'];
+                $user->password = $userData['password'];
+                $user->rolid = 535751; //Cliente
+
+                $jwt = AuthJWT::getToken($user);
+                $rv->jwt = $jwt;
+                $rv->message = "El usuario ha sido creado exitosamente.";
+                $response = $response->withJson($rv, 200);
+            }
         }
-         */
         return $response;
     }
-
 
     function moveUploadedFile($directory, UploadedFile $uploadedFile)
     {
@@ -203,33 +206,6 @@ class userApi extends User implements IGenericDAO
             }
         } else {
             array_push($messages, "Ingresa la contraseña");
-        }
-        /*****************************************************/
-        //firstname validations
-        if (isset($user['firstname'])) {
-            if (strlen($user['firstname']) != 0) {
-                if (strlen($user['firstname']) > 50) {
-                    array_push($messages, "El nombre es demasiado largo para ser válido");
-                }
-            } else {
-                array_push($messages, "Ingresa tu nombre");
-            }
-        } else {
-            array_push($messages, "Ingresa tu nombre");
-        }
-        /*****************************************************/
-        /*****************************************************/
-        //lastname validations
-        if (isset($user['lastname'])) {
-            if (strlen($user['lastname']) != 0) {
-                if (strlen($user['lastname']) > 50) {
-                    array_push($messages, "El apellido es demasiado largo para ser válido");
-                }
-            }else{
-                array_push($messages, "Ingresa tu apellido");    
-            }
-        } else {
-            array_push($messages, "Ingresa tu apellido");
         }
         /*****************************************************/
         return $messages;
