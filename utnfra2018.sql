@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-01-2018 a las 19:08:42
+-- Tiempo de generación: 03-02-2018 a las 01:36:50
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -44,6 +44,26 @@ INSERT INTO `answers` (`answerid`, `text`, `userid`, `questionid`, `surveyid`, `
 (36, '', NULL, 65, 63, 0),
 (37, '', NULL, 65, 63, 0),
 (38, 'Excelente. 100% recomendado, 1link , mega, no virus', NULL, 64, 62, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `locations`
+--
+
+CREATE TABLE `locations` (
+  `locationid` bigint(20) NOT NULL,
+  `description` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `locations`
+--
+
+INSERT INTO `locations` (`locationid`, `description`) VALUES
+(151531, 'Zona CABA'),
+(265840, 'Zona Sur'),
+(650540, 'Zona Norte');
 
 -- --------------------------------------------------------
 
@@ -94,22 +114,18 @@ INSERT INTO `optionsbyanswer` (`optionsbyanswerid`, `optionid`, `answerid`) VALU
 
 CREATE TABLE `permissions` (
   `permissionid` bigint(18) NOT NULL,
-  `description` varchar(100) NOT NULL
+  `description` varchar(100) NOT NULL,
+  `uri` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `permissions`
 --
 
-INSERT INTO `permissions` (`permissionid`, `description`) VALUES
-(1, 'Gestionar profesor'),
-(2, 'Gestionar administrativo'),
-(3, 'Gestionar usuarios'),
-(4, 'Gestionar encuestas'),
-(5, 'Ver encuestas'),
-(6, 'Tomar asistencia'),
-(7, 'Ver estadísticas'),
-(8, 'Ver faltas y asistencias');
+INSERT INTO `permissions` (`permissionid`, `description`, `uri`) VALUES
+(296541, 'Ver salones', 'eventRoomViewer'),
+(778521, 'Realizar reserva de salón', 'loungeReservation'),
+(4215501, 'Ver mis reservaciones', 'reservationsViewer');
 
 -- --------------------------------------------------------
 
@@ -128,16 +144,9 @@ CREATE TABLE `permissionsbyrol` (
 --
 
 INSERT INTO `permissionsbyrol` (`permissionbyrolid`, `permissionid`, `rolid`) VALUES
-(1, 4, 2),
-(2, 6, 2),
-(3, 7, 2),
-(4, 5, 4),
-(5, 6, 3),
-(6, 3, 3),
-(9, 3, 1),
-(10, 7, 1),
-(11, 8, 4),
-(12, 4, 3);
+(5031, 296541, 535751),
+(10132, 4215501, 535751),
+(32109, 778521, 535751);
 
 -- --------------------------------------------------------
 
@@ -162,6 +171,20 @@ INSERT INTO `questions` (`questionid`, `text`, `surveyid`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `reservations`
+--
+
+CREATE TABLE `reservations` (
+  `reservationid` bigint(20) NOT NULL,
+  `ownerid` bigint(20) NOT NULL,
+  `locationid` bigint(20) NOT NULL,
+  `reserveddate` date NOT NULL,
+  `guestlist` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `roles`
 --
 
@@ -175,11 +198,10 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`rolid`, `code`) VALUES
-(1, 'Administrator'),
-(2, 'Teacher'),
-(3, 'Administrative'),
-(4, 'Student'),
-(535751, 'Cliente');
+(535751, 'Cliente'),
+(88107751, 'Administrador'),
+(96312471, 'Encargado'),
+(221548621, 'Empleado');
 
 -- --------------------------------------------------------
 
@@ -262,6 +284,12 @@ ALTER TABLE `answers`
   ADD KEY `userid` (`userid`);
 
 --
+-- Indices de la tabla `locations`
+--
+ALTER TABLE `locations`
+  ADD PRIMARY KEY (`locationid`);
+
+--
 -- Indices de la tabla `options`
 --
 ALTER TABLE `options`
@@ -296,6 +324,15 @@ ALTER TABLE `permissionsbyrol`
 ALTER TABLE `questions`
   ADD PRIMARY KEY (`questionid`),
   ADD KEY `surveyid` (`surveyid`);
+
+--
+-- Indices de la tabla `reservations`
+--
+ALTER TABLE `reservations`
+  ADD PRIMARY KEY (`reservationid`),
+  ADD KEY `ownerid` (`ownerid`),
+  ADD KEY `locationid` (`locationid`),
+  ADD KEY `locationid_2` (`locationid`);
 
 --
 -- Indices de la tabla `roles`
@@ -347,17 +384,22 @@ ALTER TABLE `optionsbyanswer`
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `permissionid` bigint(18) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `permissionid` bigint(18) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4215502;
 --
 -- AUTO_INCREMENT de la tabla `permissionsbyrol`
 --
 ALTER TABLE `permissionsbyrol`
-  MODIFY `permissionbyrolid` bigint(18) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `permissionbyrolid` bigint(18) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32110;
 --
 -- AUTO_INCREMENT de la tabla `questions`
 --
 ALTER TABLE `questions`
   MODIFY `questionid` bigint(18) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+--
+-- AUTO_INCREMENT de la tabla `reservations`
+--
+ALTER TABLE `reservations`
+  MODIFY `reservationid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT de la tabla `surveys`
 --
@@ -408,6 +450,13 @@ ALTER TABLE `permissionsbyrol`
 --
 ALTER TABLE `questions`
   ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`surveyid`) REFERENCES `surveys` (`surveyid`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `reservations`
+--
+ALTER TABLE `reservations`
+  ADD CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`ownerid`) REFERENCES `users` (`userid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`locationid`) REFERENCES `locations` (`locationid`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `surveys`

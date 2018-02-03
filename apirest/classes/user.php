@@ -89,4 +89,16 @@ class User
 		$consulta->execute();
 		return $consulta->rowCount() > 0;
 	}
+
+	public static function getPermissionsByUserRolId($rolid){
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("
+		select p.description, p.uri from permissionsbyrol as pbr
+		join permissions as p on pbr.permissionid = p.permissionid
+		join roles as r on pbr.rolid = r.rolid
+		where pbr.rolid = :rolid");
+		$consulta->bindValue(':rolid', $rolid, PDO::PARAM_INT);
+		$consulta->execute();
+		return $consulta->fetchAll();
+	}
 }

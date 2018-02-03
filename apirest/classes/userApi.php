@@ -94,7 +94,12 @@ class userApi extends User implements IGenericDAO
             $email = $userData['email'];
             $user = User::getUserDataByEmailAndPassword($email, $password);
             if ($user != false) {
-
+                
+                //get permissions
+                $rv->permissions = User::getPermissionsByUserRolId($user->rolid);
+                //set return value properties
+                $rv->username = $user->username;
+                $rv->email = $user->email;
                 $jwt = AuthJWT::getToken($user);
                 $rv->jwt = $jwt;
                 $rv->message = 'Usuario encontrado';

@@ -7,6 +7,7 @@ require '../composer/vendor/autoload.php';
 require '../composer/vendor/paragonie/random_compat/psalm-autoload.php';
 require_once '/classes/AccesoDatos.php';
 require_once '/classes/userApi.php';
+require_once '/classes/reservationApi.php';
 require_once '/classes/AuthJWT.php';
 require_once '/classes/MWCORS.php';
 require_once '/classes/MWAuth.php';
@@ -38,6 +39,12 @@ $app->group('/login', function () {
    $this->post('/signup', \userApi::class . ':validateRegistrationData');
  
  })->add(\MWCORS::class . ':enableCORS');
+
+ $app->group('/reservation', function () {
+  
+  $this->post('/add', \reservationApi::class . ':insert');
+
+})->add(\MWCORS::class . ':enableCORS');
 
 
 $app->run();
