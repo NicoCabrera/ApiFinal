@@ -8,6 +8,7 @@ require '../composer/vendor/paragonie/random_compat/psalm-autoload.php';
 require_once '/classes/AccesoDatos.php';
 require_once '/classes/userApi.php';
 require_once '/classes/reservationApi.php';
+require_once '/classes/answerApi.php';
 require_once '/classes/AuthJWT.php';
 require_once '/classes/MWCORS.php';
 require_once '/classes/MWAuth.php';
@@ -26,10 +27,16 @@ $app->group('/user', function () {
 
   $this->post('/add', \userApi::class . ':insert')->add(\MWAuth::class . ':verifyUser');
 
-  $this->post('/delete', \userApi::class . ':delete')->add(\MWAuth::class . ':verifyUser');
+  $this->post('/delete', \userApi::class . ':delete');
 
-  $this->post('/update', \userApi::class . ':update')->add(\MWAuth::class . ':verifyUser');
-     
+  $this->post('/update', \userApi::class . ':update');
+
+  $this->post('/adminadd', \userApi::class . ':saveUserFromAdminComponent');
+
+  $this->post('/usernames', \userApi::class . ':getAllNamesForAutocomplete');
+
+  $this->post('/filteredusers', \userApi::class . ':usersByFilters');
+  
 })->add(\MWCORS::class . ':enableCORS');
 
 $app->group('/login', function () {
@@ -40,10 +47,35 @@ $app->group('/login', function () {
  
  })->add(\MWCORS::class . ':enableCORS');
 
+ $app->group('/answer', function () {
+  
+  $this->post('/save', \answerApi::class . ':insert');
+
+})->add(\MWCORS::class . ':enableCORS');
+
  $app->group('/reservation', function () {
   
   $this->post('/add', \reservationApi::class . ':insert');
 
+  $this->post('/checkreservations', \reservationApi::class . ':getAllReservedDate');
+
+  $this->post('/myreservations', \reservationApi::class . ':getReservationsByUser');
+
+  $this->post('/updatelist', \reservationApi::class . ':updateReservationGuestList');
+
+  $this->post('/reservationsbyattendantid', \reservationApi::class . ':getReservationsByAttendant');
+
+  $this->post('/cancel', \reservationApi::class . ':cancelReservations');
+
+  $this->post('/checkreservationsbylocation', \reservationApi::class . ':getReservationsDatesByLocation');
+
+  $this->post('/updatedate', \reservationApi::class . ':updateDate');
+
+  $this->post('/byactivestatus', \reservationApi::class . ':getReservationsCount');
+  
+  $this->post('/activestatusforpdfreport', \reservationApi::class . ':getReservationsForPDFResport');
+
+  
 })->add(\MWCORS::class . ':enableCORS');
 
 
