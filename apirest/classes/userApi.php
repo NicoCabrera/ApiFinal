@@ -103,6 +103,33 @@ class userApi extends User implements IGenericDAO
         return $newResponse;
     }
 
+    public function getAnswersStats($request, $response, $args){
+        $now = new \DateTime('now');
+        $month = $now->format('m');
+        $year = intval($now->format('Y'));
+        $rv = new stdclass();
+        $rv->confuse = User::getConfuseQuantity($month,$year)[0];
+        $rv->appropiate = User::getAppropiateQuantity($month,$year)[0];
+        $rv->optimum = User::getOptimumQuantity($month,$year)[0];
+
+
+        $rv->bad = User::getBadQuantity($month,$year);
+        $rv->regular = User::getRegularQuantity($month,$year);
+        $rv->good = User::getGoodQuantity($month,$year);
+        $rv->verygood = User::getVeryGoodQuantity($month,$year);
+        return $response->withJson($rv, 200);
+    }
+
+
+    public function getCurrentMonthAnswersToExportExcelFile($request, $response, $args){
+        $now = new \DateTime('now');
+        $month = $now->format('m');
+        $year = intval($now->format('Y'));
+        $rv = new stdclass();
+        $rv->answers = User::getCurrentMonthAnswers($month,$year);
+        return $response->withJson($rv, 200);
+    }
+
     public function delete($request, $response, $args)
     {
         $userToDelete = $request->getParsedBody();

@@ -100,6 +100,77 @@ class User
 		return $consulta->fetchAll(PDO::FETCH_CLASS, "user");
 	}
 
+	public static function getConfuseQuantity($month,$year)
+	{
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("select count(*) FROM answers
+		WHERE information like '%Confusa%' and MONTH(creationdate) = " . $month . " and YEAR(creationdate) = " . $year);
+		$consulta->execute();
+		return $consulta->fetchAll(PDO::FETCH_COLUMN, 0);
+	}
+
+	public static function getAppropiateQuantity($month,$year)
+	{
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("select count(*) FROM answers
+		WHERE information like '%Adecuada%' and MONTH(creationdate) = " . $month . " and YEAR(creationdate) = " . $year);
+		$consulta->execute();
+		return $consulta->fetchAll(PDO::FETCH_COLUMN, 0);
+	}
+
+	public static function getOptimumQuantity($month,$year)
+	{
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("select count(*) FROM answers
+		WHERE information like '%Óptima%' and MONTH(creationdate) = " . $month . " and YEAR(creationdate) = " . $year);
+		$consulta->execute();
+		return $consulta->fetchAll(PDO::FETCH_COLUMN, 0);
+	}
+
+	public static function getBadQuantity($month,$year)
+	{
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("select count(*) FROM answers
+		WHERE reservationsystem like '%Malo%' and MONTH(creationdate) = " . $month . " and YEAR(creationdate) = " . $year);
+		$consulta->execute();
+		return $consulta->fetchAll(PDO::FETCH_COLUMN, 0);
+	}
+
+	public static function getRegularQuantity($month,$year)
+	{
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("select count(*) FROM answers
+		WHERE reservationsystem like '%Regular%' and MONTH(creationdate) = " . $month . " and YEAR(creationdate) = " . $year);
+		$consulta->execute();
+		return $consulta->fetchAll(PDO::FETCH_COLUMN, 0);
+	}
+
+	public static function getGoodQuantity($month,$year)
+	{
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("select count(*) FROM answers
+		WHERE reservationsystem like '%Bueno%' and MONTH(creationdate) = " . $month . " and YEAR(creationdate) = " . $year);
+		$consulta->execute();
+		return $consulta->fetchAll(PDO::FETCH_COLUMN, 0);
+	}
+
+	public static function getVeryGoodQuantity($month,$year)
+	{
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("select count(*) FROM answers
+		WHERE reservationsystem like '%Muy Bueno%' and MONTH(creationdate) = " . $month . " and YEAR(creationdate) = " . $year);
+		$consulta->execute();
+		return $consulta->fetchAll(PDO::FETCH_COLUMN, 0);
+	}
+
+	public static function getCurrentMonthAnswers($month,$year){
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+		$consulta = $objetoAccesoDato->RetornarConsulta("select * FROM answers
+		WHERE MONTH(creationdate) = " . $month . " and YEAR(creationdate) = " . $year . " order by creationdate");
+		$consulta->execute();
+		return $consulta->fetchAll(PDO::FETCH_ASSOC);
+	}
+
 	public static function getAllUserNames()
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();

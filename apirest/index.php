@@ -36,6 +36,11 @@ $app->group('/user', function () {
   $this->post('/usernames', \userApi::class . ':getAllNamesForAutocomplete');
 
   $this->post('/filteredusers', \userApi::class . ':usersByFilters');
+
+  $this->post('/answers', \userApi::class . ':getAnswersStats');
+
+  $this->post('/answerstoexcel', \userApi::class . ':getCurrentMonthAnswersToExportExcelFile');
+
   
 })->add(\MWCORS::class . ':enableCORS');
 

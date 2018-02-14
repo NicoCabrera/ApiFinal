@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-02-2018 a las 04:14:32
+-- Tiempo de generación: 13-02-2018 a las 23:09:12
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -48,7 +48,11 @@ CREATE TABLE `answers` (
 --
 
 INSERT INTO `answers` (`answerid`, `ownerid`, `score`, `information`, `reservationsystem`, `chosenday`, `rehire`, `partyroomrecommend`, `soundandilluminationrecommend`, `crockeryandtablelinenrecommend`, `cateringrecommend`, `sendoffersbyemail`, `suggest`, `creationdate`) VALUES
-(4, 31, 10, 'Óptima', 'Muy Bueno', 1, 1, 0, 0, 0, 1, 1, 'Sos muy vivo porque ya aparecen la mejores respuestas seleccionadas, tonto!', '2018-02-09');
+(4, 31, 10, 'Óptima', 'Muy Bueno', 1, 1, 0, 0, 0, 1, 1, 'Sos muy vivo porque ya aparecen la mejores respuestas seleccionadas, tonto!', '2018-02-09'),
+(5, 31, 7, 'Adecuada', 'Bueno', 1, 1, 1, 1, 1, 1, 0, 'Les dejo mi sugerencia. Cuidenla.', '2018-02-13'),
+(6, 31, 9, 'Confusa', 'Regular', 0, 0, 1, 0, 0, 0, 1, 'Sugiero dejar de amenazar, no es una amenaza, es una sugerencia', '2018-02-13'),
+(7, 35, 10, 'Adecuada', 'Muy Bueno', 1, 1, 1, 1, 0, 1, 1, 'Más actividad en las redes sociales. Gracias!', '2018-02-13'),
+(8, 64, 8, 'Adecuada', 'Bueno', 0, 1, 1, 0, 0, 1, 0, 'Menos spam!', '2018-02-13');
 
 -- --------------------------------------------------------
 
@@ -117,7 +121,8 @@ INSERT INTO `permissions` (`permissionid`, `description`, `uri`) VALUES
 (4215501, 'Ver mis reservaciones', 'reservationsViewer'),
 (6954111, 'Modificar lista de invitados', 'attendant'),
 (11111133, 'Usuarios', 'admin-users'),
-(55252552, 'Estadisticas', 'charts');
+(36332121, 'Estadística de encuestas', 'chart-quiz'),
+(55252552, 'Estadistíca de reservaciones', 'charts');
 
 -- --------------------------------------------------------
 
@@ -144,6 +149,7 @@ INSERT INTO `permissionsbyrol` (`permissionbyrolid`, `permissionid`, `rolid`) VA
 (102354, 445561, 221548621),
 (444282, 6954111, 96312471),
 (636363, 55252552, 88107751),
+(22202202, 36332121, 88107751),
 (32323232, 996399, 96312471);
 
 -- --------------------------------------------------------
@@ -166,10 +172,7 @@ CREATE TABLE `reservations` (
 --
 
 INSERT INTO `reservations` (`reservationid`, `ownerid`, `locationid`, `reserveddate`, `guestlist`, `active`) VALUES
-(18, 31, 265840, '2018-02-22', '[]', 1),
 (19, 31, 151531, '2018-02-08', '[]', 1),
-(20, 31, 650540, '2018-03-01', '[]', 1),
-(21, 31, 265840, '2018-02-19', '[{\"name\":\"Carlos\",\"lastname\":\"Perez\",\"tnumber\":\"2\"},{\"name\":\"Ana\",\"lastname\":\"Ramirez\",\"tnumber\":\"4\"},{\"name\":\"Cristian\",\"lastname\":\"Correa\",\"tnumber\":\"6\"},{\"name\":\"Alba\",\"lastname\":\"Aranda\",\"tnumber\":\"\"},{\"name\":\"Rodrigo\",\"lastname\":\"Zir\",\"tnumber\":\"\"}]', 1),
 (22, 31, 151531, '2018-02-10', '[{\"name\":\"Nico\",\"lastname\":\"Cabrera\",\"tnumber\":\"3\"},{\"name\":\"Mary\",\"lastname\":\"Romero\",\"tnumber\":\"3\"}]', 1),
 (23, 34, 151531, '2017-09-07', '[]', 1),
 (24, 35, 265840, '2017-09-09', '[]', 0),
@@ -231,8 +234,11 @@ INSERT INTO `reservations` (`reservationid`, `ownerid`, `locationid`, `reservedd
 (80, 97, 650540, '2018-02-03', '[]', 1),
 (81, 98, 650540, '2018-02-10', '[]', 1),
 (82, 99, 650540, '2018-02-23', '[]', 1),
-(84, 31, 650540, '2018-02-27', '[]', 1),
-(85, 34, 265840, '2018-02-27', '[]', 1);
+(85, 34, 265840, '2018-02-27', '[]', 1),
+(86, 31, 265840, '2018-02-22', '[]', 1),
+(87, 31, 151531, '2018-02-14', '[]', 1),
+(88, 35, 151531, '2018-02-15', '[]', 1),
+(89, 64, 151531, '2018-02-19', '[]', 1);
 
 -- --------------------------------------------------------
 
@@ -411,7 +417,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `answerid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `answerid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de la tabla `permissions`
 --
@@ -426,7 +432,7 @@ ALTER TABLE `permissionsbyrol`
 -- AUTO_INCREMENT de la tabla `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservationid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `reservationid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
