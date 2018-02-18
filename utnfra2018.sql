@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-02-2018 a las 23:09:12
+-- Tiempo de generación: 18-02-2018 a las 02:33:36
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 5.6.30
 
@@ -52,7 +52,10 @@ INSERT INTO `answers` (`answerid`, `ownerid`, `score`, `information`, `reservati
 (5, 31, 7, 'Adecuada', 'Bueno', 1, 1, 1, 1, 1, 1, 0, 'Les dejo mi sugerencia. Cuidenla.', '2018-02-13'),
 (6, 31, 9, 'Confusa', 'Regular', 0, 0, 1, 0, 0, 0, 1, 'Sugiero dejar de amenazar, no es una amenaza, es una sugerencia', '2018-02-13'),
 (7, 35, 10, 'Adecuada', 'Muy Bueno', 1, 1, 1, 1, 0, 1, 1, 'Más actividad en las redes sociales. Gracias!', '2018-02-13'),
-(8, 64, 8, 'Adecuada', 'Bueno', 0, 1, 1, 0, 0, 1, 0, 'Menos spam!', '2018-02-13');
+(8, 64, 8, 'Adecuada', 'Bueno', 0, 1, 1, 0, 0, 1, 0, 'Menos spam!', '2018-02-13'),
+(9, 117, 10, 'Adecuada', 'Muy Bueno', 1, 1, 1, 0, 0, 0, 0, '0', '2018-02-17'),
+(10, 35, 10, 'Adecuada', 'Muy Bueno', 1, 1, 1, 1, 1, 1, 0, '0', '2018-02-18'),
+(11, 31, 10, 'Adecuada', 'Muy Bueno', 1, 1, 0, 0, 0, 0, 1, '0', '2018-02-18');
 
 -- --------------------------------------------------------
 
@@ -74,7 +77,10 @@ INSERT INTO `employees` (`employeeid`, `locationid`) VALUES
 (33, 265840),
 (108, 151531),
 (109, 650540),
-(116, 265840);
+(116, 265840),
+(118, 265840),
+(119, 650540),
+(120, 151531);
 
 -- --------------------------------------------------------
 
@@ -234,11 +240,15 @@ INSERT INTO `reservations` (`reservationid`, `ownerid`, `locationid`, `reservedd
 (80, 97, 650540, '2018-02-03', '[]', 1),
 (81, 98, 650540, '2018-02-10', '[]', 1),
 (82, 99, 650540, '2018-02-23', '[]', 1),
-(85, 34, 265840, '2018-02-27', '[]', 1),
-(86, 31, 265840, '2018-02-22', '[]', 1),
+(85, 34, 265840, '2018-02-27', '[{\"name\":\"Pepe\",\"lastname\":\"Grillo\",\"tnumber\":\"7\"},{\"name\":\"Pin\",\"lastname\":\"Ocho\",\"tnumber\":\"7\"}]', 1),
+(86, 31, 265840, '2018-02-22', '[]', 0),
 (87, 31, 151531, '2018-02-14', '[]', 1),
 (88, 35, 151531, '2018-02-15', '[]', 1),
-(89, 64, 151531, '2018-02-19', '[]', 1);
+(89, 64, 151531, '2018-02-19', '[]', 1),
+(90, 117, 151531, '2018-02-24', '[]', 1),
+(91, 117, 265840, '2018-03-02', '[{\"name\":\"Un\",\"lastname\":\"Invitado\",\"tnumber\":\"4\"},{\"name\":\"Otro\",\"lastname\":\"Invitado\",\"tnumber\":\"9\"}]', 1),
+(92, 35, 650540, '2018-02-27', '[]', 1),
+(93, 31, 151531, '2018-02-27', '[{\"name\":\"Nico\",\"lastname\":\"Cabrera\"},{\"name\":\"Mary\",\"lastname\":\"Romero\"}]', 1);
 
 -- --------------------------------------------------------
 
@@ -348,7 +358,11 @@ INSERT INTO `users` (`userid`, `username`, `email`, `password`, `rolid`) VALUES
 (100, 'El Administrador', 'administrador@administrador.com', 'contraseñasuperloca123456', 88107751),
 (108, 'Juan Perez', 'Juanperez@gmail.com', 'contraseñasuperloca123456', 221548621),
 (109, 'Encargado ZN', 'encargardoDeZonaNorte@norte.com', 'contraseñasuperloca123456', 96312471),
-(116, 'empleadín Nuevo', 'mengargo@zonanorte.com', '123456', 221548621);
+(116, 'empleadín Nuevo', 'mengargo@zonanorte.com', '123456', 221548621),
+(117, 'Anteultima prueba', 'anteultimo@anteultimo.com.ar', 'contraseñasuperloca123456', 535751),
+(118, 'Mario Castañeda', 'empleado@zonasur.com', '123456', 221548621),
+(119, 'Empleado de Zona Norte', 'empleado@zonanorte.com', '123456', 221548621),
+(120, 'Engarcadísimo CABA', 'encargado@caba.com', '123456', 96312471);
 
 --
 -- Índices para tablas volcadas
@@ -417,7 +431,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `answerid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `answerid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `permissions`
 --
@@ -432,12 +446,12 @@ ALTER TABLE `permissionsbyrol`
 -- AUTO_INCREMENT de la tabla `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservationid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `reservationid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `userid` bigint(18) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `userid` bigint(18) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 --
 -- Restricciones para tablas volcadas
 --
